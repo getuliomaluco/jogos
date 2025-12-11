@@ -1,0 +1,233 @@
+[2025-12-10 17:36:56.127] ╔════════════════════════════════════════════════════════════╗
+[2025-12-10 17:36:56.130] ║          BOT TIBIA LOOT - OCR ATIVO                       ║
+[2025-12-10 17:36:56.131] ╚════════════════════════════════════════════════════════════╝
+[2025-12-10 17:36:56.131] ============================================================
+[2025-12-10 17:36:56.132] VERIFICAÇÃO DO AMBIENTE
+[2025-12-10 17:36:56.132] ============================================================
+[2025-12-10 17:36:56.133] ✓ Ambiente virtual: ATIVO
+[2025-12-10 17:36:56.133] ✓ DISPLAY: :0.0
+[2025-12-10 17:36:56.190] ✓ xdotool: Instalado - xdotool version 3.20160805.1
+[2025-12-10 17:36:56.221] ✓ tesseract: tesseract 5.3.4
+[2025-12-10 17:36:56.221] 📐 CHAT_REGION: top=909, left=1, width=1561, height=112
+[2025-12-10 17:36:56.222] ============================================================
+[2025-12-10 17:36:56.222] ⏳ Aguardando 2 segundos para iniciar...
+[2025-12-10 17:36:58.222] ▶️  INICIANDO BOT
+[2025-12-10 17:36:58.222] 🎹 Pressionando tecla: space
+[2025-12-10 17:36:58.286] ✓ Tecla space pressionada com sucesso
+[2025-12-10 17:36:58.287] 👁️  Monitorando chat do Tibia...
+[2025-12-10 17:36:58.287] 🔍 Aguardando mensagem 'Loot of...'
+[2025-12-10 17:36:58.288] 🛑 Pressione F12 para parar
+[2025-12-10 17:36:58.291] ────────────────────────────────────────────────────────────
+[2025-12-10 17:36:58.292] 🔄 SCAN #1 - Ciclos completados: 0/1000
+[2025-12-10 17:37:08.478] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:37:08.478]    Linha 1: '1728 Loot of an amazon: a dagger, asabre.'
+[2025-12-10 17:37:08.478]    Linha 2: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:37:08.478]    Linha 3: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:37:08.479]    Linha 4: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:37:08.479]    Linha 5: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:37:08.479]    Linha 6: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:37:08.479]    Linha 7: '17-32 Loot of an amazon-a sabre, 2 skulls.'
+[2025-12-10 17:37:08.480] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:37:08.480] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:37:08.680] 🔄 SCAN #2 - Ciclos completados: 0/1000
+[2025-12-10 17:37:13.791] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:37:13.792]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:37:13.792]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:37:13.792]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:37:13.793]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:37:13.793]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:37:13.793]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:37:13.793]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:37:13.793] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:37:13.796] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:37:13.997] 🔄 SCAN #3 - Ciclos completados: 0/1000
+[2025-12-10 17:37:22.789] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:37:22.789]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:37:22.789]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:37:22.790]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:37:22.790]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:37:22.790]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:37:22.790]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:37:22.790]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:37:22.790] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:37:22.790] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:37:22.991] 🔄 SCAN #4 - Ciclos completados: 0/1000
+[2025-12-10 17:37:50.292] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:37:50.293]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:37:50.295]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:37:50.299]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:37:50.303]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:37:50.305]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:37:50.313]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:37:50.325]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:37:50.340] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:37:50.348] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:37:50.551] 🔄 SCAN #5 - Ciclos completados: 0/1000
+[2025-12-10 17:37:57.615] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:37:57.615]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:37:57.615]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:37:57.616]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:37:57.616]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:37:57.616]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:37:57.616]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:37:57.616]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:37:57.616] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:37:57.616] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:37:57.817] 🔄 SCAN #6 - Ciclos completados: 0/1000
+[2025-12-10 17:38:05.502] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:38:05.502]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:38:05.503]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:38:05.503]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:38:05.503]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:38:05.505]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:38:05.505]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:38:05.505]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:38:05.506] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:38:05.508] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:38:05.709] 🔄 SCAN #7 - Ciclos completados: 0/1000
+[2025-12-10 17:38:16.254] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:38:16.254]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:38:16.254]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:38:16.255]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:38:16.255]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:38:16.255]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:38:16.255]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:38:16.255]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:38:16.255] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:38:16.256] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:38:16.456] 🔄 SCAN #8 - Ciclos completados: 0/1000
+[2025-12-10 17:38:29.531] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:38:29.531]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:38:29.532]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:38:29.532]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:38:29.532]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:38:29.533]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:38:29.533]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:38:29.533]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:38:29.533] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:38:29.534] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:38:29.741] 🔄 SCAN #9 - Ciclos completados: 0/1000
+[2025-12-10 17:38:43.061] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:38:43.067]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:38:43.070]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:38:43.074]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:38:43.074]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:38:43.075]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:38:43.076]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:38:43.078]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:38:43.079] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:38:43.081] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:38:43.283] 🔄 SCAN #10 - Ciclos completados: 0/1000
+[2025-12-10 17:38:50.222] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:38:50.222]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:38:50.222]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:38:50.222]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:38:50.222]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:38:50.223]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:38:50.223]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:38:50.224]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:38:50.224] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:38:50.225] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:38:50.425] 🔄 SCAN #11 - Ciclos completados: 0/1000
+[2025-12-10 17:39:07.592] 📷 OCR: 11 linha(s) detectada(s)
+[2025-12-10 17:39:07.593]    Linha 1: 'Linha 6: ‘1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:39:07.594]    Linha 2: 'Linha 7: ‘1737 Loot of an anazon-a gold coin, a sabre.*'
+[2025-12-10 17:39:07.595]    Linha 3: '\. Nenhuna Linha com padréo ‘HH:MM Loot of* encontrada'
+[2025-12-10 17:39:07.596]    Linha 4: 'Aguardando 9.25 antes do proximo scan...'
+[2025-12-10 17:39:07.597]    Linha 5: '[2025-12-18'
+[2025-12-10 17:39:07.599]    Linha 6: '[2025-12-10'
+[2025-12-10 17:39:07.600]    Linha 7: 'if'
+[2025-12-10 17:39:07.601]    Linha 8: '['
+[2025-12-10 17:39:07.602]    Linha 9: '2025-12-10'
+[2025-12-10 17:39:07.603]    Linha 10: '2025-12-10'
+[2025-12-10 17:39:07.604]    Linha 11: '[2025-12-10 17:38:50.425] MM SCAN #11 - Ciclos completados: 0/1000'
+[2025-12-10 17:39:07.605] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:39:07.607] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:39:07.808] 🔄 SCAN #12 - Ciclos completados: 0/1000
+[2025-12-10 17:39:29.700] 📷 OCR: 23 linha(s) detectada(s)
+[2025-12-10 17:39:29.700]    Linha 1: '[2025-12-18'
+[2025-12-10 17:39:29.701]    Linha 2: '[2025-12-10'
+[2025-12-10 17:39:29.702]    Linha 3: '[2025-12-10'
+[2025-12-10 17:39:29.703]    Linha 4: '[2025-12-10'
+[2025-12-10 17:39:29.703]    Linha 5: '[2025-12-10'
+[2025-12-10 17:39:29.706]    Linha 6: '2025-12-10'
+[2025-12-10 17:39:29.706]    Linha 7: 'Linha'
+[2025-12-10 17:39:29.706]    Linha 8: 'Linha'
+[2025-12-10 17:39:29.707]    Linha 9: 'Linha'
+[2025-12-10 17:39:29.707]    Linha 10: 'Linha'
+[2025-12-10 17:39:29.707]    Linha 11: 'Linha'
+[2025-12-10 17:39:29.707]    Linha 12: 'Linha'
+[2025-12-10 17:39:29.707]    Linha 13: '‘1731 Valuable loot: girlish hair decoration dropped hy amazon!‘'
+[2025-12-10 17:39:29.707]    Linha 14: '‘1731 Loot of an'
+[2025-12-10 17:39:29.707]    Linha 15: '‘1731 You looted'
+[2025-12-10 17:39:29.707]    Linha 16: '‘1732 Loot of an'
+[2025-12-10 17:39:29.708]    Linha 17: '‘1732 Loot of an'
+[2025-12-10 17:39:29.708]    Linha 18: '‘1737 Loot of an'
+[2025-12-10 17:39:29.708]    Linha 19: 'amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull’'
+[2025-12-10 17:39:29.708]    Linha 20: 'some of the dropped items hut none of the dropped gol''
+[2025-12-10 17:39:29.708]    Linha 21: 'amazon: a brown bread, a dagger, asabre,‘'
+[2025-12-10 17:39:29.709]    Linha 22: 'amazon: a sabre, 2 skuIS.*‘'
+[2025-12-10 17:39:29.709]    Linha 23: 'amazon-a gold coin, a sabre."'
+[2025-12-10 17:39:29.710] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:39:29.710] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:39:29.911] 🔄 SCAN #13 - Ciclos completados: 0/1000
+[2025-12-10 17:39:36.846] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:39:36.846]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:39:36.847]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:39:36.847]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:39:36.847]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:39:36.847]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:39:36.847]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:39:36.847]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:39:36.848] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:39:36.848] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:39:37.048] 🔄 SCAN #14 - Ciclos completados: 0/1000
+[2025-12-10 17:39:44.365] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:39:44.365]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:39:44.365]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:39:44.365]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:39:44.365]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:39:44.365]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:39:44.366]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:39:44.366]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:39:44.366] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:39:44.366] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:39:44.566] 🔄 SCAN #15 - Ciclos completados: 0/1000
+[2025-12-10 17:39:53.549] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:39:53.549]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:39:53.550]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:39:53.550]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:39:53.550]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:39:53.550]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:39:53.550]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:39:53.550]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:39:53.550] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:39:53.551] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:39:53.751] 🔄 SCAN #16 - Ciclos completados: 0/1000
+[2025-12-10 17:40:01.440] 📷 OCR: 7 linha(s) detectada(s)
+[2025-12-10 17:40:01.441]    Linha 1: '1731 Loot of an amazon: a dagger, 8 gold coins, 2 skulls'
+[2025-12-10 17:40:01.441]    Linha 2: '1731 Valuable loot: girlish hair decoration dropped hy amazon!'
+[2025-12-10 17:40:01.442]    Linha 3: '1731 Loot of an amazon: a brown hread, a dagger, a girlish hair decoration, 6 gold coins, a skull'
+[2025-12-10 17:40:01.443]    Linha 4: '1731 You looted some of the dropped items hut none of the dropped gol'
+[2025-12-10 17:40:01.443]    Linha 5: '1732 Loot of an amazon: a brown bread, a dagger, asabre,'
+[2025-12-10 17:40:01.444]    Linha 6: '1732 Loot of an amazon: a sabre, 2 skuIS.'
+[2025-12-10 17:40:01.446]    Linha 7: '1737 Loot of an amazon-a gold coin, a sabre.'
+[2025-12-10 17:40:01.446] ❌ Nenhuma linha com padrão 'HH:MM Loot of' encontrada
+[2025-12-10 17:40:01.448] 💤 Aguardando 0.2s antes do próximo scan...
+
+[2025-12-10 17:40:01.650] 🔄 SCAN #17 - Ciclos completados: 0/1000
