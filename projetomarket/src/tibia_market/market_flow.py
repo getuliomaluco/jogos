@@ -8,132 +8,77 @@ from statistics_parser import copy_statistics
 from storage import save_csv
 from items_loader import load_items
 
-# ======================
-# POSIÇÕES FIXAS (UI)
-# ======================
 
-DEPOT_POS = (781, 516)
-MARKET_POS = (1879, 1002)
-MARKET_CLOSE_POS = (1406, 835)
-
-SEARCH_FIELD_POS = (538, 797)
-ITEM_FIRST_POS = (499, 528)
-DETAILS_POS = (1249, 838)
-
-# ======================
-# TEMPOS (segundos)
-# ======================
-
-START_DELAY = 2
-OPEN_DELAY = 6
-ACTION_DELAY = 1
-ITEM_BATCH_SIZE = 25
-
-# ======================
-# CONTROLE DE ENCERRAMENTO
-# ======================
-
-def graceful_exit(signum, frame):
-    log("🛑 Script interrupted by user (SSH-safe)")
-    log("Script terminated gracefully")
+def handle_exit(signum, frame):
+    log("Received exit signal. Exiting safely.")
     sys.exit(0)
 
-signal.signal(signal.SIGINT, graceful_exit)
-signal.signal(signal.SIGTERM, graceful_exit)
 
-# ======================
-# AÇÕES ESTRUTURAIS
-# ======================
-
-def open_depot_and_market():
-    log("== OPEN: depot -> market ==")
-
-    log(f"🟦 MOVE  x={DEPOT_POS[0]} y={DEPOT_POS[1]}")
-    right_click(*DEPOT_POS)
-    time.sleep(OPEN_DELAY)
-
-    log(f"🟦 MOVE  x={MARKET_POS[0]} y={MARKET_POS[1]}")
-    right_click(*MARKET_POS)
-    time.sleep(OPEN_DELAY)
+signal.signal(signal.SIGINT, handle_exit)
+signal.signal(signal.SIGTERM, handle_exit)
 
 
-def close_market():
-    log("== CLOSE: market ==")
-    click(*MARKET_CLOSE_POS)
-    time.sleep(1)
-    click(*MARKET_CLOSE_POS)
-    time.sleep(2)
+def safe_click(x, y, dry_run):
+    if dry_run:
+        log(f"[DRY-RUN] click at x={x} y={y}")
+    else:
+        click(x, y)
 
 
-def movement_pause():
-    log("⬆️ Moving up")
-    type_text("")  # garante foco
-    time.sleep(1)
-    sys.stdout.flush()
-    click(0, 0)  # no-op visual
-    time.sleep(1)
+def safe_right_click(x, y, dry_run):
+    if dry_run:
+        log(f"[DRY-RUN] right_click at x={x} y={y}")
+    else:
+        right_click(x, y)
 
-    log("⬇️ Moving down")
-    time.sleep(1)
 
-# ======================
-# PROCESSAMENTO DE ITEM
-# ======================
-
-def process_item(item_name: str):
-    log(f"== ITEM START: {item_name} ==")
-
-    log("Step: focus search field")
-    click(*SEARCH_FIELD_POS)
-    time.sleep(ACTION_DELAY)
-
-    log("Step: clear search")
-    clear_input()
-    time.sleep(ACTION_DELAY)
-
-    log("Step: type item name")
-    type_text(item_name)
-    time.sleep(6)
-
-    log("Step: select first result")
-    click(*ITEM_FIRST_POS)
-    time.sleep(ACTION_DELAY)
-
-    log("Step: open DETAILS")
-    click(*DETAILS_POS)
-    time.sleep(ACTION_DELAY)
-
-    log("Step: copy + parse statistics")
-    stats = copy_statistics()
-
-    if stats is None:
-        log(f"🚫 Item '{item_name}' not available on Market")
-        return False
-
-    save_csv(item_name, stats)
-    log(f"✅ Statistics saved for {item_name}")
-    return True
-
-# ======================
-# FLUXO PRINCIPAL
-# ======================
-
-def run_market_flow():
-    log("🚀 Starting Tibia Market Bot (DEV MODE)")
-    time.sleep(START_DELAY)
+def run_market_flow(dry_run=False):
+    log(f"Running market flow (dry_run={dry_run})")
 
     items = load_items()
-    log(f"📦 Loaded {len(items)} item(s)")
+    if not items:
+        log("No items loaded. Exiting.")
+        return
 
-    open_depot_and_market()
+    # Aguarda antes de iniciar
+    time.sleep(1)
 
-    for idx, item in enumerate(items, start=1):
-        process_item(item)
+    # Abrir Depot
+    log("Opening depot")
+    safe_right_click(781, 516, dry_run)
+    time.sleep(1)
 
-        if idx == 1 or idx % ITEM_BATCH_SIZE == 0:
-            close_market()
-            movement_pause()
-            open_depot_and_market()
+    # Abrir Market
+    log("Opening market")
+    safe_right_click(1881, 989, dry_run)
+    time.sleep(2)
 
-    close_market()
-    log("🏁 All items processed successfully")
+    # Processar itens
+    for item in items:
+        log(f"Processing item: {item}")
+
+        if dry_run:
+            log(f"[DRY-RUN] Would search item: {item}")
+        else:
+            clear_input()
+            type_text(item)
+            time.sleep(1)
+
+        # Abrir Details
+        log("Opening item details")
+        safe_click(1249, 838, dry_run)
+        time.sleep(1)
+
+        # Copiar estatísticas
+        log("Copying statistics")
+        stats = copy_statistics(dry_run=dry_run)
+
+        if stats:
+            log("Saving statistics")
+            save_csv(item, stats)
+        else:
+            log("No statistics captured")
+
+        time.sleep(1)
+
+    log("Market flow finished")
