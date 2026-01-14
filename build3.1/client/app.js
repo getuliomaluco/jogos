@@ -127,6 +127,7 @@ const recPressDuration = document.getElementById("recPressDuration");
 
 const visionLabel = document.getElementById("visionLabel");
 const visionThreshold = document.getElementById("visionThreshold");
+const visionRoiMode = document.getElementById("visionRoiMode");
 const visionOnMatch = document.getElementById("visionOnMatch");
 const visionOnMiss = document.getElementById("visionOnMiss");
 const visionJumpMatch = document.getElementById("visionJumpMatch");
@@ -136,6 +137,20 @@ const visionRoiY1 = document.getElementById("visionRoiY1");
 const visionRoiX2 = document.getElementById("visionRoiX2");
 const visionRoiY2 = document.getElementById("visionRoiY2");
 const visionUseRoi = document.getElementById("visionUseRoi");
+
+function applyVisionRoiMode(mode) {
+  if (mode === "roi1") {
+    visionRoiX1.value = roi.x1;
+    visionRoiY1.value = roi.y1;
+    visionRoiX2.value = roi.x2;
+    visionRoiY2.value = roi.y2;
+  } else if (mode === "roi2") {
+    visionRoiX1.value = roi2.x1;
+    visionRoiY1.value = roi2.y1;
+    visionRoiX2.value = roi2.x2;
+    visionRoiY2.value = roi2.y2;
+  }
+}
 
 ip.value = localStorage.getItem("linux_ip") || "";
 analyzerUrl.value = localStorage.getItem("analyzer_url") || "http://127.0.0.1:5005/analyze";
@@ -981,15 +996,20 @@ function loadEventToForm(ev) {
   if (ev.type === "vision") {
     visionLabel.value = ev.label || "minimapopencv";
     visionThreshold.value = ev.threshold != null ? ev.threshold : 0.85;
+    visionRoiMode.value = ev.roiMode || "roi1";
     visionOnMatch.value = (ev.onMatch && ev.onMatch.action) || "continue";
     visionOnMiss.value = (ev.onMiss && ev.onMiss.action) || "continue";
     visionJumpMatch.value = ev.onMatch && Number.isFinite(ev.onMatch.index) ? ev.onMatch.index + 1 : "";
     visionJumpMiss.value = ev.onMiss && Number.isFinite(ev.onMiss.index) ? ev.onMiss.index + 1 : "";
-    const roiEv = ev.roi || roi;
-    visionRoiX1.value = roiEv.x1 || 0;
-    visionRoiY1.value = roiEv.y1 || 0;
-    visionRoiX2.value = roiEv.x2 || 0;
-    visionRoiY2.value = roiEv.y2 || 0;
+    if (visionRoiMode.value === "custom") {
+      const roiEv = ev.roi || roi;
+      visionRoiX1.value = roiEv.x1 || 0;
+      visionRoiY1.value = roiEv.y1 || 0;
+      visionRoiX2.value = roiEv.x2 || 0;
+      visionRoiY2.value = roiEv.y2 || 0;
+    } else {
+      applyVisionRoiMode(visionRoiMode.value);
+    }
   }
 
   updateEventFields();
@@ -1032,16 +1052,24 @@ function getEventFromForm() {
   if (type === "vision") {
     const jumpMatch = Number(visionJumpMatch.value || 0);
     const jumpMiss = Number(visionJumpMiss.value || 0);
-    return {
-      type: "vision",
-      label: (visionLabel.value || "").trim() || "minimapopencv",
-      threshold: Number(visionThreshold.value || 0.85),
-      roi: {
+    const mode = visionRoiMode.value || "roi1";
+    let roiValue = null;
+    if (mode === "roi1") roiValue = { ...roi };
+    if (mode === "roi2") roiValue = { ...roi2 };
+    if (mode === "custom") {
+      roiValue = {
         x1: Number(visionRoiX1.value || 0),
         y1: Number(visionRoiY1.value || 0),
         x2: Number(visionRoiX2.value || 0),
         y2: Number(visionRoiY2.value || 0)
-      },
+      };
+    }
+    return {
+      type: "vision",
+      label: (visionLabel.value || "").trim() || "minimapopencv",
+      threshold: Number(visionThreshold.value || 0.85),
+      roiMode: mode,
+      roi: roiValue,
       onMatch: {
         action: visionOnMatch.value,
         index: Number.isFinite(jumpMatch) && jumpMatch > 0 ? jumpMatch - 1 : null
@@ -1087,6 +1115,12 @@ eventType.onchange = () => {
 };
 
 delayType.onchange = () => updateDelayFields();
+
+visionRoiMode.onchange = () => {
+  if (visionRoiMode.value !== "custom") {
+    applyVisionRoiMode(visionRoiMode.value);
+  }
+};
 
 saveEventBtn.onclick = () => {
   const macro = currentMacro();
@@ -1163,15 +1197,13 @@ addVisionBtn.onclick = () => addEvent({
   label: "minimapopencv",
   threshold: 0.85,
   roi: { ...roi },
+  roiMode: "roi1",
   onMatch: { action: "continue", index: null },
   onMiss: { action: "continue", index: null }
 });
 
 visionUseRoi.onclick = () => {
-  visionRoiX1.value = roi.x1;
-  visionRoiY1.value = roi.y1;
-  visionRoiX2.value = roi.x2;
-  visionRoiY2.value = roi.y2;
+  applyVisionRoiMode(visionRoiMode.value || "roi1");
 };
 
 moveUpBtn.onclick = () => {
