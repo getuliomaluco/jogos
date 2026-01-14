@@ -346,7 +346,7 @@ function renderRoiPreview() {
   clampRoiToTarget();
   const w = Math.max(1, roi.x2 - roi.x1);
   const h = Math.max(1, roi.y2 - roi.y1);
-  const scale = 2;
+  const scale = 1;
   const targetW = Math.max(1, Math.round(w * scale));
   const targetH = Math.max(1, Math.round(h * scale));
   if (roiCanvas.width !== targetW) roiCanvas.width = targetW;
