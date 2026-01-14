@@ -35,6 +35,8 @@ canvas {
   border: 2px solid #ffcc00;
   box-shadow: 0 0 10px rgba(255, 204, 0, 0.35);
   margin-top: 4px;
+  max-width: 30vw;
+  max-height: 30vh;
 }
 
 .click-marker {

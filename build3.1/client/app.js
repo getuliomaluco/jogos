@@ -312,6 +312,10 @@ analyzerUrl.addEventListener("change", () => {
   localStorage.setItem("analyzer_url", analyzerUrl.value || "");
 });
 
+window.addEventListener("resize", () => {
+  renderRoiPreview();
+});
+
 testVisionBtn.onclick = async () => {
   testVisionStatus.textContent = "Analisando...";
   const ev = {
@@ -346,7 +350,9 @@ function renderRoiPreview() {
   clampRoiToTarget();
   const w = Math.max(1, roi.x2 - roi.x1);
   const h = Math.max(1, roi.y2 - roi.y1);
-  const scale = 1;
+  const maxW = Math.max(120, Math.floor(window.innerWidth * 0.25));
+  const maxH = Math.max(120, Math.floor(window.innerHeight * 0.3));
+  const scale = Math.min(1, maxW / w, maxH / h);
   const targetW = Math.max(1, Math.round(w * scale));
   const targetH = Math.max(1, Math.round(h * scale));
   if (roiCanvas.width !== targetW) roiCanvas.width = targetW;
@@ -402,6 +408,7 @@ function shouldIgnoreKeyEvent(e) {
 }
 
 canvas.addEventListener("contextmenu", (e) => e.preventDefault());
+roiCanvas.addEventListener("contextmenu", (e) => e.preventDefault());
 canvas.addEventListener("mousedown", (e) => {
   const { x, y } = getCanvasCoords(e);
   showClickMarker(x, y);
@@ -428,6 +435,23 @@ canvas.addEventListener("mousedown", (e) => {
     recordMouseDown(e, x, y);
     return;
   }
+
+  let button = 1;
+  if (e.button === 1) button = 2;
+  if (e.button === 2) button = 3;
+  sendInput({ type: "input", event: "mouse_click", x, y, button });
+});
+
+roiCanvas.addEventListener("mousedown", (e) => {
+  if (!lastFrameImg) return;
+  const rect = roiCanvas.getBoundingClientRect();
+  const w = Math.max(1, roi.x2 - roi.x1);
+  const h = Math.max(1, roi.y2 - roi.y1);
+  const relX = Math.round(((e.clientX - rect.left) / rect.width) * w);
+  const relY = Math.round(((e.clientY - rect.top) / rect.height) * h);
+  const x = Math.max(0, Math.min(targetW, roi.x1 + relX));
+  const y = Math.max(0, Math.min(targetH, roi.y1 + relY));
+  showClickMarker(x, y);
 
   let button = 1;
   if (e.button === 1) button = 2;
