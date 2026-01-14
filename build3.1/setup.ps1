@@ -1,6 +1,6 @@
 param(
   [string]$ClientPath = "E:\\remote-client",
-  [string]$ServerPath = "\\\\192.168.0.104\\getulio\\build3.1"
+  [string]$ServerPath = '\\192.168.0.104\getulio\build3.1'
 )
 
 $ErrorActionPreference = "Stop"
@@ -21,6 +21,8 @@ function Copy-Tree {
     throw "Source not found: $Source"
   }
 
+  $Destination = $Destination.Trim()
+
   New-Item -ItemType Directory -Force -Path $Destination | Out-Null
 
   $excludeArgs = @()
@@ -28,9 +30,18 @@ function Copy-Tree {
     $excludeArgs = @("/XD") + $ExcludeDirs
   }
 
-  robocopy $Source $Destination *.* /E /R:1 /W:1 /NFL /NDL /NJH /NJS /NC /NS $excludeArgs | Out-Null
-  if ($LASTEXITCODE -ge 8) {
-    throw "Robocopy failed with code $LASTEXITCODE"
+  $timestamp = Get-Date -Format "yyyyMMdd-HHmmss"
+  $logPath = Join-Path $env:TEMP "build3.1-robocopy-$timestamp.log"
+
+  robocopy $Source $Destination *.* /E /R:1 /W:1 /NFL /NDL /NJH /NJS /NC /NS /LOG:$logPath $excludeArgs | Out-Null
+  $exitCode = $LASTEXITCODE
+
+  if ($exitCode -ge 8) {
+    $logTail = ""
+    if (Test-Path $logPath) {
+      $logTail = (Get-Content -Path $logPath -Tail 50 | Out-String)
+    }
+    throw "Robocopy failed with code $exitCode. Log: $logPath`n$logTail"
   }
 }
 
