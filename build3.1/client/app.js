@@ -69,6 +69,7 @@ const addF3Btn = document.getElementById("addF3Btn");
 const addKey1Btn = document.getElementById("addKey1Btn");
 const addKey2Btn = document.getElementById("addKey2Btn");
 const addKey3Btn = document.getElementById("addKey3Btn");
+const addLadderUpBtn = document.getElementById("addLadderUpBtn");
 const addClickLeftBtn = document.getElementById("addClickLeftBtn");
 const addClickRightBtn = document.getElementById("addClickRightBtn");
 const addScrollBtn = document.getElementById("addScrollBtn");
@@ -1091,6 +1092,10 @@ addF3Btn.onclick = () => addEvent({ type: "key", action: "press", key: "F3" });
 addKey1Btn.onclick = () => addEvent({ type: "key", action: "press", key: "1" });
 addKey2Btn.onclick = () => addEvent({ type: "key", action: "press", key: "2" });
 addKey3Btn.onclick = () => addEvent({ type: "key", action: "press", key: "3" });
+addLadderUpBtn.onclick = () => {
+  addEvent({ type: "mouse", action: "click", button: 1, x: 728, y: 343 });
+  addEvent({ type: "mouse", action: "click", button: 1, x: 728, y: 343 });
+};
 addClickLeftBtn.onclick = () => {
   if (!currentMacro()) {
     alert("Selecione uma macro antes de adicionar click");
