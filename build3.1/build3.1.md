@@ -15,10 +15,14 @@ Quick summary:
 Sync from repo (Windows):
 - powershell -ExecutionPolicy Bypass -File build3.1\setup.ps1
 
+Config (Linux systemd):
+- build3.1/config.env (copied to /home/getulio/build3.1/config.env)
+- systemd script: /home/getulio/build3.1/server/setup_systemd.sh
+
 Server run (Linux):
 - Install deps: bash /home/getulio/build3.1/install.sh
 - Run: python3 /home/getulio/build3.1/server.py --port 8888 --verbose
-- Systemd: remote-control.service (DISPLAY=:0, XAUTHORITY=/home/getulio/.Xauthority)
+- Systemd: remote-control.service
 
 Client run (Windows):
 - Open build3.1/client/index.html in a browser

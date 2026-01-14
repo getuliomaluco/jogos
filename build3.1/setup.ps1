@@ -8,6 +8,7 @@ $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $clientSrc = Join-Path $repoRoot "client"
 $serverSrc = Join-Path $repoRoot "server"
+$configSrc = Join-Path $repoRoot "config.env"
 
 function Copy-Tree {
   param(
@@ -39,7 +40,12 @@ Copy-Tree -Source $clientSrc -Destination $ClientPath
 Write-Host "Sync server -> $ServerPath"
 Copy-Tree -Source $serverSrc -Destination $ServerPath -ExcludeDirs @("venv")
 
+if (Test-Path $configSrc) {
+  Write-Host "Sync config.env -> $ServerPath"
+  Copy-Item $configSrc (Join-Path $ServerPath "config.env") -Force
+}
+
 Write-Host "OK. Next steps on Linux:"
 Write-Host "  bash /home/getulio/build3.1/install.sh"
+Write-Host "  bash /home/getulio/build3.1/server/setup_systemd.sh"
 Write-Host "  python3 /home/getulio/build3.1/server.py --port 8888 --verbose"
-Write-Host "If using systemd, update remote-control.service paths and enable it."
