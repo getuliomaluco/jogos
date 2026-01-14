@@ -62,6 +62,7 @@ const playMacroBtn = document.getElementById("playMacroBtn");
 const addDelayBtn = document.getElementById("addDelayBtn");
 const addDelayValue = document.getElementById("addDelayValue");
 const addDelay35Btn = document.getElementById("addDelay35Btn");
+const addDelay58Btn = document.getElementById("addDelay58Btn");
 const addKeyBtn = document.getElementById("addKeyBtn");
 const addF1Btn = document.getElementById("addF1Btn");
 const addF2Btn = document.getElementById("addF2Btn");
@@ -70,6 +71,7 @@ const addKey1Btn = document.getElementById("addKey1Btn");
 const addKey2Btn = document.getElementById("addKey2Btn");
 const addKey3Btn = document.getElementById("addKey3Btn");
 const addLadderUpBtn = document.getElementById("addLadderUpBtn");
+const addMagicRopeBtn = document.getElementById("addMagicRopeBtn");
 const addClickLeftBtn = document.getElementById("addClickLeftBtn");
 const addClickRightBtn = document.getElementById("addClickRightBtn");
 const addScrollBtn = document.getElementById("addScrollBtn");
@@ -1085,6 +1087,7 @@ addDelayBtn.onclick = () => {
   addEvent({ type: "delay", mode: "fixed", ms });
 };
 addDelay35Btn.onclick = () => addEvent({ type: "delay", mode: "random", min: 3000, max: 5000 });
+addDelay58Btn.onclick = () => addEvent({ type: "delay", mode: "random", min: 5000, max: 8000 });
 addKeyBtn.onclick = () => addEvent({ type: "key", action: "press", key: "ctrl+c" });
 addF1Btn.onclick = () => addEvent({ type: "key", action: "press", key: "F1" });
 addF2Btn.onclick = () => addEvent({ type: "key", action: "press", key: "F2" });
@@ -1096,6 +1099,7 @@ addLadderUpBtn.onclick = () => {
   addEvent({ type: "mouse", action: "click", button: 1, x: 728, y: 343 });
   addEvent({ type: "mouse", action: "click", button: 1, x: 728, y: 343 });
 };
+addMagicRopeBtn.onclick = () => addEvent({ type: "key", action: "press", key: "Home" });
 addClickLeftBtn.onclick = () => {
   if (!currentMacro()) {
     alert("Selecione uma macro antes de adicionar click");
