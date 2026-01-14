@@ -1,11 +1,13 @@
 #!/bin/bash
 set -e
 
-echo "== Instalando dependências (somente o necessário) =="
+BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+echo "== Instalando dependencias (somente o necessario) =="
 
 # 1) Python3
 if ! command -v python3 >/dev/null 2>&1; then
-  echo "[ERRO] python3 não encontrado. Instale via apt."
+  echo "[ERRO] python3 nao encontrado. Instale via apt."
   exit 1
 fi
 
@@ -16,19 +18,19 @@ if ! command -v pip3 >/dev/null 2>&1; then
   sudo apt-get install -y python3-pip
 fi
 
-# 3) Ferramentas do sistema (xdotool é usado para mouse/teclado)
+# 3) Ferramentas do sistema (xdotool e usado para mouse/teclado)
 if ! command -v xdotool >/dev/null 2>&1; then
   echo "Instalando xdotool..."
   sudo apt-get update -y
   sudo apt-get install -y xdotool
 else
-  echo "✓ xdotool já instalado"
+  echo "xdotool ja instalado"
 fi
 
-# 4) Dependências Python
+# 4) Dependencias Python
 echo "Instalando libs Python (websockets, mss, Pillow)..."
-pip3 install --user -r /home/getulio/build3.1/requirements.txt
+pip3 install --user -r "$BASE_DIR/requirements.txt"
 
 echo "== OK =="
 echo "Para testar:"
-echo "  python3 /home/getulio/build3.1/server.py --port 8080 --verbose"
+echo "  python3 \"$BASE_DIR/server.py\" --port 8080 --verbose"

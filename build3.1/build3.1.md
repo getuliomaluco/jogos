@@ -5,12 +5,15 @@ Project: remote screen capture + input macros (Windows client + Linux server).
 Paths:
 - Windows client (source): E:\remote-client
 - Linux server (source): \\192.168.0.104\getulio\build3.1
-- Repo copy: build3.1/client and build3.1/server
+- Repo: build3.1/client and build3.1/server
 
 Quick summary:
-- Client is a static web UI (index.html, app.js, style.css) that connects via WebSocket to the Linux server, shows the screen stream, and sends input/macros.
+- Client is a static web UI that connects via WebSocket to the Linux server, shows the screen stream, and sends input/macros.
 - Server is Python (server.py) using websockets + mss + Pillow to capture the screen, encode JPEG base64, and send frames.
 - Input execution uses xdotool for mouse/keyboard/text/scroll; systemd service file provided.
+
+Sync from repo (Windows):
+- powershell -ExecutionPolicy Bypass -File build3.1\setup.ps1
 
 Server run (Linux):
 - Install deps: bash /home/getulio/build3.1/install.sh
