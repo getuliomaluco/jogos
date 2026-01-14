@@ -101,6 +101,31 @@ input, select {
   min-width: 40px;
 }
 
+.vision-result {
+  margin-top: 6px;
+  padding: 6px;
+  border: 1px solid #2a2a2a;
+  background: #141414;
+  font-size: 12px;
+}
+
+.vision-badge {
+  display: inline-block;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.vision-badge.ok {
+  background: #0a7f4f;
+  color: #fff;
+}
+
+.vision-badge.fail {
+  background: #b00020;
+  color: #fff;
+}
+
 .danger {
   background: #b00020;
   color: white;

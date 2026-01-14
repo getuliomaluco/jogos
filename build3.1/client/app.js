@@ -118,6 +118,11 @@ const cursorTooltip = document.getElementById("cursorTooltip");
 const analyzerUrl = document.getElementById("analyzerUrl");
 const testVisionBtn = document.getElementById("testVisionBtn");
 const testVisionStatus = document.getElementById("testVisionStatus");
+const visionResult = document.getElementById("visionResult");
+const visionResultStatus = document.getElementById("visionResultStatus");
+const visionResultScore = document.getElementById("visionResultScore");
+const visionResultTemplate = document.getElementById("visionResultTemplate");
+const visionResultRoi = document.getElementById("visionResultRoi");
 
 const recKeys = document.getElementById("recKeys");
 const recClicks = document.getElementById("recClicks");
@@ -415,11 +420,13 @@ window.addEventListener("resize", () => {
 
 testVisionBtn.onclick = async () => {
   testVisionStatus.textContent = "Analisando...";
+  const mode = visionRoiMode.value || "roi1";
   const ev = {
     type: "vision",
     label: (visionLabel && visionLabel.value) ? visionLabel.value : "minimapopencv",
     threshold: visionThreshold && visionThreshold.value ? Number(visionThreshold.value) : 0.85,
-    roi: { ...roi }
+    roiMode: mode,
+    roi: mode === "roi2" ? { ...roi2 } : { ...roi }
   };
   const result = await analyzeVisionEvent(ev);
   if (result.match) {
@@ -427,6 +434,7 @@ testVisionBtn.onclick = async () => {
   } else {
     testVisionStatus.textContent = `No match (${result.score.toFixed(2)})`;
   }
+  updateVisionResult(result, ev);
 };
 
 let lastFrameImg = null;
@@ -1362,6 +1370,15 @@ function normalizeJumpIndex(value) {
   return value;
 }
 
+function updateVisionResult(result, ev) {
+  const statusText = result.match ? "Match" : "No match";
+  visionResultStatus.textContent = statusText;
+  visionResultStatus.className = "vision-badge " + (result.match ? "ok" : "fail");
+  visionResultScore.textContent = result.score != null ? result.score.toFixed(2) : "-";
+  visionResultTemplate.textContent = result.template || "-";
+  visionResultRoi.textContent = ev && ev.roiMode ? ev.roiMode : "-";
+}
+
 async function analyzeVisionEvent(ev) {
   if (!lastFrameImg) {
     return { match: false, score: 0, label: ev.label || "" };
@@ -1399,7 +1416,8 @@ async function analyzeVisionEvent(ev) {
     return {
       match: !!data.match,
       score: Number(data.score || 0),
-      label: data.label || ev.label || ""
+      label: data.label || ev.label || "",
+      template: data.template || ""
     };
   } catch (err) {
     logError("Vision analyzer error", err);
@@ -1436,6 +1454,7 @@ async function playMacro(macro) {
 
       if (ev.type === "vision") {
         const result = await analyzeVisionEvent(ev);
+        updateVisionResult(result, ev);
         const branch = result.match ? ev.onMatch : ev.onMiss;
         if (branch && branch.action === "stop") {
           runningMacros[macro.id].stop = true;
