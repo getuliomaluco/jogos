@@ -34,6 +34,41 @@ Use it to resume work in a new session without re-discovery.
    bash /home/getulio/build3.1/server/setup_systemd.sh
    bash /home/getulio/build3.1/server/setup_systemd.sh --restart
 
+## Checklist (deploy/validation)
+
+### Sync
+- Run: powershell -ExecutionPolicy Bypass -File build3.1\\setup.ps1
+- Confirm files in E:\\remote-client and \\\\192.168.0.104\\getulio\\build3.1
+
+### Linux deps
+- bash /home/getulio/build3.1/install.sh
+- Verify: python3 -c \"import websockets, mss, PIL\" (no error)
+- Verify: xdotool --version
+
+### Systemd
+- Review /home/getulio/build3.1/config.env
+- bash /home/getulio/build3.1/server/setup_systemd.sh
+- bash /home/getulio/build3.1/server/setup_systemd.sh --restart
+- systemctl status remote-control.service
+
+### Client
+- Open build3.1/client/index.html
+- Connect to ws://<linux-ip>:8888
+- Confirm FPS updates and latency
+- Start analyzer: python build3.1\\analyzer\\analyze_server.py
+- Set Analyzer URL to http://127.0.0.1:5005/analyze
+
+### Input
+- Click on the preview and confirm mouse click on Linux
+- Type in the text box and send
+- Try a macro with delay + click
+- Try a macro with vision step (match/miss)
+
+### Troubleshooting
+- Check logs: ~/.local/share/remote-control/server.log
+- Confirm DISPLAY and XAUTHORITY in config.env
+- Ensure port 8888 is open and reachable
+
 ## UI features (current)
 - Stream canvas + 2 ROI previews (ROI 1 and ROI 2) to the right.
 - ROI previews auto-scale and forward clicks to the remote host.
