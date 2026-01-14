@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Remote Control - Linux</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div id="app">
+
+  <section>
+    <h2>Conexao</h2>
+    IP: <input id="ip"> Porta: <input id="port" value="8888" size="5">
+    <button id="connectBtn">Conectar</button>
+    <button id="disconnectBtn" disabled>Desconectar</button>
+    <button id="emergencyStop" class="danger">Parada de emergencia</button>
+    <div>
+      Status: <span id="connStatus">Desconectado</span> |
+      Latencia: <span id="latency">-</span> ms |
+      FPS: <span id="fps">-</span>
+    </div>
+  </section>
+
+  <section>
+    <h2>Tela</h2>
+    <div class="canvas-wrap">
+      <canvas id="canvas" width="960" height="540"></canvas>
+      <div id="clickMarker" class="click-marker"></div>
+      <div id="cursorTooltip" class="cursor-tooltip">X: 0 Y: 0</div>
+    </div>
+    <div class="small">X: <span id="hoverX">-</span> | Y: <span id="hoverY">-</span></div>
+    <div>
+      <button id="pauseStream">Pausar stream</button>
+      <button id="resumeStream">Retomar</button>
+    </div>
+  </section>
+
+  <section>
+    <h2>Teclado</h2>
+    <label><input type="checkbox" id="captureKeyboard"> Capturar teclado (atalhos/combinacoes)</label>
+    <div class="row">
+      <input id="textInput" placeholder="Digite um texto para enviar">
+      <button id="sendText">Enviar texto</button>
+    </div>
+    <div id="keyButtons" class="key-buttons"></div>
+  </section>
+
+  <section>
+    <h2>Macros</h2>
+    <div class="macro-layout">
+      <div class="macro-sidebar">
+        <div class="toolbar">
+          <button id="newMacro">Nova macro</button>
+          <button id="deleteMacro" class="danger">Remover</button>
+        </div>
+        <div id="macroList" class="list"></div>
+      </div>
+
+      <div class="macro-main">
+        <div class="toolbar">
+          <button id="recordBtn">Gravar</button>
+          <button id="stopRecordBtn" disabled>Parar</button>
+          <button id="playMacroBtn">Testar</button>
+          <button id="stopAllMacros" class="danger">Stop all</button>
+          <button id="addDelayBtn">Add delay</button>
+          <input id="addDelayValue" type="number" min="0" value="100" size="6">
+          <button id="addKeyBtn">Add key</button>
+          <button id="addClickLeftBtn">Add click L</button>
+          <button id="addClickRightBtn">Add click R</button>
+          <button id="addScrollBtn">Add scroll</button>
+          <button id="moveUpBtn">Up</button>
+          <button id="moveDownBtn">Down</button>
+          <button id="removeActionBtn" class="danger">Remover</button>
+        </div>
+
+        <div class="row">
+          Nome: <input id="macroName" placeholder="Nome da macro">
+          <label><input type="checkbox" id="macroLoop"> Loop</label>
+          Repeticoes: <input id="macroLoopCount" type="number" min="0" placeholder="0=inf" size="6">
+          <button id="saveMacro">Salvar</button>
+        </div>
+
+        <div id="eventList" class="list"></div>
+
+        <div class="event-editor">
+          <div id="eventEditorHint">Selecione um evento para editar.</div>
+          <div id="eventEditor" class="hidden">
+            Tipo:
+            <select id="eventType">
+              <option value="delay">Delay</option>
+              <option value="key">Key</option>
+              <option value="mouse">Mouse</option>
+              <option value="scroll">Scroll</option>
+              <option value="move">Move</option>
+            </select>
+
+            <div id="eventDelayFields" class="row">
+              Tipo:
+              <select id="delayType">
+                <option value="fixed">Fixed</option>
+                <option value="random">Random</option>
+              </select>
+              <span id="delayFixedFields">
+                Valor(ms): <input id="delayValue" type="number" min="0" value="100" size="6">
+              </span>
+              <span id="delayRandomFields" class="hidden">
+                Min(ms): <input id="delayMin" type="number" min="0" value="50" size="6">
+                Max(ms): <input id="delayMax" type="number" min="0" value="150" size="6">
+              </span>
+            </div>
+
+            <div id="eventKeyFields" class="row">
+              Acao:
+              <select id="keyAction">
+                <option value="press">Press</option>
+                <option value="down">Down</option>
+                <option value="up">Up</option>
+              </select>
+              Tecla/Combo: <input id="keyValue" placeholder="ctrl+c">
+            </div>
+
+            <div id="eventMouseFields" class="row">
+              Acao:
+              <select id="mouseAction">
+                <option value="click">Click</option>
+                <option value="down">Down</option>
+                <option value="up">Up</option>
+              </select>
+              Botao:
+              <select id="mouseButton">
+                <option value="1">Esq</option>
+                <option value="2">Meio</option>
+                <option value="3">Dir</option>
+              </select>
+              X: <input id="mouseX" type="number" min="0" max="1920" size="6">
+              Y: <input id="mouseY" type="number" min="0" max="1080" size="6">
+            </div>
+
+            <div id="eventScrollFields" class="row">
+              Direcao:
+              <select id="scrollDirection">
+                <option value="down">Down</option>
+                <option value="up">Up</option>
+              </select>
+              Clicks: <input id="scrollClicks" type="number" min="1" max="50" size="4" value="3">
+              X: <input id="scrollX" type="number" min="0" max="1920" size="6">
+              Y: <input id="scrollY" type="number" min="0" max="1080" size="6">
+            </div>
+
+            <div id="eventMoveFields" class="row">
+              Modo:
+              <select id="moveMode">
+                <option value="abs">Abs</option>
+                <option value="rel">Rel</option>
+              </select>
+              X: <input id="moveX" type="number" min="-1920" max="1920" size="6">
+              Y: <input id="moveY" type="number" min="-1080" max="1080" size="6">
+            </div>
+
+            <div class="row">
+              <button id="captureCoords">Capturar coords</button>
+              <span id="captureStatus" class="small">Inativo</span>
+            </div>
+
+            <div class="row">
+              <button id="saveEvent">Salvar evento</button>
+              <button id="newEvent">Novo evento</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="macro-settings">
+        <h3>Recording settings</h3>
+        <label><input type="checkbox" id="recKeys" checked> Record keystrokes from the keyboard</label>
+        <label><input type="checkbox" id="recClicks" checked> Record mouse clicks</label>
+        <label><input type="checkbox" id="recAbsMove"> Record absolute cursor movement</label>
+        <label><input type="checkbox" id="recRelMove"> Record relative cursor movement</label>
+        <label><input type="checkbox" id="recPressDuration" checked> Insert press duration</label>
+        <div class="small">Dica: grave clicando na tela do preview.</div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+[Unit]
+Description=Remote Control WebSocket Server
+After=network.target
+
+[Service]
+Type=simple
+User=getulio
+WorkingDirectory=/home/getulio/build3.1
+ExecStart=/home/getulio/build3.1/venv/bin/python /home/getulio/build3.1/server.py --host 0.0.0.0 --port 8888 --interval-ms 200 --jpeg-quality 70
+Restart=always
+RestartSec=2
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/getulio/.Xauthority
+
+[Install]
+WantedBy=multi-user.target

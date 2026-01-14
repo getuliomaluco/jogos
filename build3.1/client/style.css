@@ -1,0 +1,146 @@
+body {
+  font-family: Arial, sans-serif;
+  background: #111;
+  color: #eee;
+}
+
+section {
+  border: 1px solid #333;
+  padding: 10px;
+  margin: 10px;
+  background: #1c1c1c;
+}
+
+canvas {
+  border: 1px solid #555;
+}
+
+.canvas-wrap {
+  position: relative;
+  display: inline-block;
+}
+
+.click-marker {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border: 3px solid #ffcc00;
+  border-radius: 50%;
+  box-shadow: 0 0 8px #ffcc00;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease-out;
+}
+
+.click-marker.show {
+  opacity: 1;
+}
+
+.cursor-tooltip {
+  position: absolute;
+  padding: 2px 6px;
+  background: rgba(0, 0, 0, 0.7);
+  color: #eee;
+  border: 1px solid #333;
+  border-radius: 4px;
+  font-size: 11px;
+  pointer-events: none;
+  transform: translate(10px, 10px);
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.15s ease-out;
+}
+
+.cursor-tooltip.show {
+  opacity: 1;
+}
+
+button {
+  margin: 3px;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+.row {
+  margin-top: 6px;
+}
+
+input, select {
+  margin: 2px;
+  padding: 4px 6px;
+  background: #0f0f0f;
+  color: #eee;
+  border: 1px solid #333;
+}
+
+.key-buttons {
+  margin-top: 6px;
+}
+
+.key-buttons button {
+  min-width: 40px;
+}
+
+.danger {
+  background: #b00020;
+  color: white;
+}
+
+.small {
+  font-size: 12px;
+  opacity: 0.8;
+}
+
+.hidden {
+  display: none;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 6px;
+}
+
+.list {
+  border: 1px solid #333;
+  padding: 6px;
+  min-height: 120px;
+  background: #141414;
+}
+
+.list-item {
+  border: 1px solid #2f2f2f;
+  padding: 6px;
+  margin-bottom: 6px;
+  cursor: pointer;
+}
+
+.list-item.active {
+  border-color: #00ff88;
+}
+
+.macro-layout {
+  display: grid;
+  grid-template-columns: 220px 1fr 260px;
+  gap: 10px;
+}
+
+.macro-sidebar, .macro-main, .macro-settings {
+  border: 1px solid #2a2a2a;
+  padding: 8px;
+  background: #181818;
+}
+
+.event-editor {
+  margin-top: 8px;
+  border: 1px dashed #333;
+  padding: 8px;
+}
+
+@media (max-width: 1100px) {
+  .macro-layout {
+    grid-template-columns: 1fr;
+  }
+}
