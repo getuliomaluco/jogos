@@ -420,12 +420,40 @@ function drawFrame(b64, format) {
   const img = new Image();
   img.onload = () => {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    drawRoiOverlay();
     lastFrameImg = img;
     renderRoiPreview();
     renderRoi2Preview();
   };
   const fmt = format || "jpeg";
   img.src = `data:image/${fmt};base64,` + b64;
+}
+
+function drawRoiOverlay() {
+  if (!targetW || !targetH) return;
+  const scaleX = canvas.width / targetW;
+  const scaleY = canvas.height / targetH;
+
+  ctx.save();
+  ctx.lineWidth = 2;
+
+  ctx.strokeStyle = "#ffcc00";
+  ctx.strokeRect(
+    Math.round(roi.x1 * scaleX),
+    Math.round(roi.y1 * scaleY),
+    Math.round((roi.x2 - roi.x1) * scaleX),
+    Math.round((roi.y2 - roi.y1) * scaleY)
+  );
+
+  ctx.strokeStyle = "#00b3ff";
+  ctx.strokeRect(
+    Math.round(roi2.x1 * scaleX),
+    Math.round(roi2.y1 * scaleY),
+    Math.round((roi2.x2 - roi2.x1) * scaleX),
+    Math.round((roi2.y2 - roi2.y1) * scaleY)
+  );
+
+  ctx.restore();
 }
 
 function renderRoiPreview() {
