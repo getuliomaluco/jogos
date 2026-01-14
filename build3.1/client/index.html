@@ -30,7 +30,7 @@
       <div id="cursorTooltip" class="cursor-tooltip">X: 0 Y: 0</div>
     </div>
     <div class="roi-panel">
-      <div class="small">Lupa ROI (auto)</div>
+      <div class="small">Lupa ROI 1 (auto)</div>
       <canvas id="roiCanvas" width="256" height="256"></canvas>
       <div class="row">
         X1: <input id="roiX1" type="number" min="0" max="1920" size="5">
@@ -39,6 +39,18 @@
       <div class="row">
         X2: <input id="roiX2" type="number" min="0" max="1920" size="5">
         Y2: <input id="roiY2" type="number" min="0" max="1080" size="5">
+      </div>
+    </div>
+    <div class="roi-panel">
+      <div class="small">Lupa ROI 2 (auto)</div>
+      <canvas id="roi2Canvas" width="256" height="256"></canvas>
+      <div class="row">
+        X1: <input id="roi2X1" type="number" min="0" max="1920" size="5">
+        Y1: <input id="roi2Y1" type="number" min="0" max="1080" size="5">
+      </div>
+      <div class="row">
+        X2: <input id="roi2X2" type="number" min="0" max="1920" size="5">
+        Y2: <input id="roi2Y2" type="number" min="0" max="1080" size="5">
       </div>
     </div>
     <div class="small">X: <span id="hoverX">-</span> | Y: <span id="hoverY">-</span></div>

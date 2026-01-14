@@ -34,6 +34,12 @@ const roiX1 = document.getElementById("roiX1");
 const roiY1 = document.getElementById("roiY1");
 const roiX2 = document.getElementById("roiX2");
 const roiY2 = document.getElementById("roiY2");
+const roi2Canvas = document.getElementById("roi2Canvas");
+const roi2Ctx = roi2Canvas.getContext("2d");
+const roi2X1 = document.getElementById("roi2X1");
+const roi2Y1 = document.getElementById("roi2Y1");
+const roi2X2 = document.getElementById("roi2X2");
+const roi2Y2 = document.getElementById("roi2Y2");
 const hoverX = document.getElementById("hoverX");
 const hoverY = document.getElementById("hoverY");
 const clickMarker = document.getElementById("clickMarker");
@@ -139,6 +145,25 @@ roiY1.value = roi.y1;
 roiX2.value = roi.x2;
 roiY2.value = roi.y2;
 
+const DEFAULT_ROI2 = { x1: 1569, y1: 182, x2: 1736, y2: 300 };
+let roi2 = { ...DEFAULT_ROI2 };
+const storedRoi2 = localStorage.getItem("roi2_coords");
+if (storedRoi2) {
+  try {
+    const parsed = JSON.parse(storedRoi2);
+    if (parsed && Number.isFinite(parsed.x1)) {
+      roi2 = parsed;
+    }
+  } catch {
+    roi2 = { ...DEFAULT_ROI2 };
+  }
+}
+
+roi2X1.value = roi2.x1;
+roi2Y1.value = roi2.y1;
+roi2X2.value = roi2.x2;
+roi2Y2.value = roi2.y2;
+
 function setConnectionUi(connected) {
   connStatus.textContent = connected ? "Conectado" : "Desconectado";
   connectBtn.disabled = connected;
@@ -164,6 +189,27 @@ function clampRoiToTarget() {
   roi.y1 = Math.max(0, Math.min(targetH, roi.y1));
   roi.x2 = Math.max(0, Math.min(targetW, roi.x2));
   roi.y2 = Math.max(0, Math.min(targetH, roi.y2));
+}
+
+function setRoi2FromInputs() {
+  roi2.x1 = Number(roi2X1.value || 0);
+  roi2.y1 = Number(roi2Y1.value || 0);
+  roi2.x2 = Number(roi2X2.value || 0);
+  roi2.y2 = Number(roi2Y2.value || 0);
+  clampRoi2ToTarget();
+  roi2X1.value = roi2.x1;
+  roi2Y1.value = roi2.y1;
+  roi2X2.value = roi2.x2;
+  roi2Y2.value = roi2.y2;
+  localStorage.setItem("roi2_coords", JSON.stringify(roi2));
+  renderRoi2Preview();
+}
+
+function clampRoi2ToTarget() {
+  roi2.x1 = Math.max(0, Math.min(targetW, roi2.x1));
+  roi2.y1 = Math.max(0, Math.min(targetH, roi2.y1));
+  roi2.x2 = Math.max(0, Math.min(targetW, roi2.x2));
+  roi2.y2 = Math.max(0, Math.min(targetH, roi2.y2));
 }
 
 function startPing() {
@@ -239,11 +285,17 @@ function connect(isReconnect) {
         if (Number.isFinite(msg.target_w)) targetW = msg.target_w;
         if (Number.isFinite(msg.target_h)) targetH = msg.target_h;
         clampRoiToTarget();
+        clampRoi2ToTarget();
         roiX1.value = roi.x1;
         roiY1.value = roi.y1;
         roiX2.value = roi.x2;
         roiY2.value = roi.y2;
+        roi2X1.value = roi2.x1;
+        roi2Y1.value = roi2.y1;
+        roi2X2.value = roi2.x2;
+        roi2Y2.value = roi2.y2;
         renderRoiPreview();
+        renderRoi2Preview();
       }
 
       if (msg.type === "frame") {
@@ -308,12 +360,19 @@ resumeStreamBtn.onclick = () => {
   });
 });
 
+[roi2X1, roi2Y1, roi2X2, roi2Y2].forEach((el) => {
+  el.addEventListener("change", () => {
+    setRoi2FromInputs();
+  });
+});
+
 analyzerUrl.addEventListener("change", () => {
   localStorage.setItem("analyzer_url", analyzerUrl.value || "");
 });
 
 window.addEventListener("resize", () => {
   renderRoiPreview();
+  renderRoi2Preview();
 });
 
 testVisionBtn.onclick = async () => {
@@ -340,6 +399,7 @@ function drawFrame(b64, format) {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
     lastFrameImg = img;
     renderRoiPreview();
+    renderRoi2Preview();
   };
   const fmt = format || "jpeg";
   img.src = `data:image/${fmt};base64,` + b64;
@@ -360,6 +420,26 @@ function renderRoiPreview() {
   roiCtx.clearRect(0, 0, roiCanvas.width, roiCanvas.height);
   try {
     roiCtx.drawImage(lastFrameImg, roi.x1, roi.y1, w, h, 0, 0, roiCanvas.width, roiCanvas.height);
+  } catch {
+    // ignore draw errors on fast reconnects
+  }
+}
+
+function renderRoi2Preview() {
+  if (!lastFrameImg) return;
+  clampRoi2ToTarget();
+  const w = Math.max(1, roi2.x2 - roi2.x1);
+  const h = Math.max(1, roi2.y2 - roi2.y1);
+  const maxW = Math.max(120, Math.floor(window.innerWidth * 0.25));
+  const maxH = Math.max(120, Math.floor(window.innerHeight * 0.3));
+  const scale = Math.min(1, maxW / w, maxH / h);
+  const targetW = Math.max(1, Math.round(w * scale));
+  const targetH = Math.max(1, Math.round(h * scale));
+  if (roi2Canvas.width !== targetW) roi2Canvas.width = targetW;
+  if (roi2Canvas.height !== targetH) roi2Canvas.height = targetH;
+  roi2Ctx.clearRect(0, 0, roi2Canvas.width, roi2Canvas.height);
+  try {
+    roi2Ctx.drawImage(lastFrameImg, roi2.x1, roi2.y1, w, h, 0, 0, roi2Canvas.width, roi2Canvas.height);
   } catch {
     // ignore draw errors on fast reconnects
   }
@@ -409,6 +489,7 @@ function shouldIgnoreKeyEvent(e) {
 
 canvas.addEventListener("contextmenu", (e) => e.preventDefault());
 roiCanvas.addEventListener("contextmenu", (e) => e.preventDefault());
+roi2Canvas.addEventListener("contextmenu", (e) => e.preventDefault());
 canvas.addEventListener("mousedown", (e) => {
   const { x, y } = getCanvasCoords(e);
   showClickMarker(x, y);
@@ -451,6 +532,23 @@ roiCanvas.addEventListener("mousedown", (e) => {
   const relY = Math.round(((e.clientY - rect.top) / rect.height) * h);
   const x = Math.max(0, Math.min(targetW, roi.x1 + relX));
   const y = Math.max(0, Math.min(targetH, roi.y1 + relY));
+  showClickMarker(x, y);
+
+  let button = 1;
+  if (e.button === 1) button = 2;
+  if (e.button === 2) button = 3;
+  sendInput({ type: "input", event: "mouse_click", x, y, button });
+});
+
+roi2Canvas.addEventListener("mousedown", (e) => {
+  if (!lastFrameImg) return;
+  const rect = roi2Canvas.getBoundingClientRect();
+  const w = Math.max(1, roi2.x2 - roi2.x1);
+  const h = Math.max(1, roi2.y2 - roi2.y1);
+  const relX = Math.round(((e.clientX - rect.left) / rect.width) * w);
+  const relY = Math.round(((e.clientY - rect.top) / rect.height) * h);
+  const x = Math.max(0, Math.min(targetW, roi2.x1 + relX));
+  const y = Math.max(0, Math.min(targetH, roi2.y1 + relY));
   showClickMarker(x, y);
 
   let button = 1;
