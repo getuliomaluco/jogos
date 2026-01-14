@@ -30,9 +30,11 @@ ENV_DST="$DEST_DIR/config.env"
 echo "Copiando config.env -> $ENV_DST"
 sudo mkdir -p "$DEST_DIR"
 sudo cp "$ENV_SRC" "$ENV_DST"
+sudo sed -i 's/\r$//' "$ENV_DST"
 
 echo "Instalando service -> /etc/systemd/system/remote-control.service"
 sudo cp "$SERVICE_SRC" /etc/systemd/system/remote-control.service
+sudo sed -i 's/\r$//' /etc/systemd/system/remote-control.service
 
 sudo systemctl daemon-reload
 sudo systemctl enable remote-control.service
