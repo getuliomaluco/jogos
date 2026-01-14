@@ -13,6 +13,7 @@
 - Review /home/getulio/build3.1/config.env
 - chmod +x /home/getulio/build3.1/server/setup_systemd.sh
 - bash /home/getulio/build3.1/server/setup_systemd.sh
+- sudo systemctl restart remote-control.service
 - systemctl status remote-control.service
 
 ## Manual run (fallback)

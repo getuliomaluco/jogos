@@ -28,7 +28,9 @@ echo "Instalando service -> /etc/systemd/system/remote-control.service"
 sudo cp "$SERVICE_SRC" /etc/systemd/system/remote-control.service
 
 sudo systemctl daemon-reload
-sudo systemctl enable --now remote-control.service
+sudo systemctl enable remote-control.service
 
-echo "Status:"
+echo "Service instalado. Para reiniciar manualmente:"
+echo "  sudo systemctl restart remote-control.service"
+echo "Status atual:"
 systemctl --no-pager --full status remote-control.service
