@@ -96,6 +96,8 @@ const saveEventBtn = document.getElementById("saveEvent");
 const newEventBtn = document.getElementById("newEvent");
 const cursorTooltip = document.getElementById("cursorTooltip");
 const analyzerUrl = document.getElementById("analyzerUrl");
+const testVisionBtn = document.getElementById("testVisionBtn");
+const testVisionStatus = document.getElementById("testVisionStatus");
 
 const recKeys = document.getElementById("recKeys");
 const recClicks = document.getElementById("recClicks");
@@ -310,6 +312,22 @@ analyzerUrl.addEventListener("change", () => {
   localStorage.setItem("analyzer_url", analyzerUrl.value || "");
 });
 
+testVisionBtn.onclick = async () => {
+  testVisionStatus.textContent = "Analisando...";
+  const ev = {
+    type: "vision",
+    label: (visionLabel && visionLabel.value) ? visionLabel.value : "minimapopencv",
+    threshold: visionThreshold && visionThreshold.value ? Number(visionThreshold.value) : 0.85,
+    roi: { ...roi }
+  };
+  const result = await analyzeVisionEvent(ev);
+  if (result.match) {
+    testVisionStatus.textContent = `Match (${result.score.toFixed(2)})`;
+  } else {
+    testVisionStatus.textContent = `No match (${result.score.toFixed(2)})`;
+  }
+};
+
 let lastFrameImg = null;
 
 function drawFrame(b64, format) {
@@ -328,6 +346,11 @@ function renderRoiPreview() {
   clampRoiToTarget();
   const w = Math.max(1, roi.x2 - roi.x1);
   const h = Math.max(1, roi.y2 - roi.y1);
+  const scale = 2;
+  const targetW = Math.max(1, Math.round(w * scale));
+  const targetH = Math.max(1, Math.round(h * scale));
+  if (roiCanvas.width !== targetW) roiCanvas.width = targetW;
+  if (roiCanvas.height !== targetH) roiCanvas.height = targetH;
   roiCtx.clearRect(0, 0, roiCanvas.width, roiCanvas.height);
   try {
     roiCtx.drawImage(lastFrameImg, roi.x1, roi.y1, w, h, 0, 0, roiCanvas.width, roiCanvas.height);

@@ -30,8 +30,8 @@
       <div id="cursorTooltip" class="cursor-tooltip">X: 0 Y: 0</div>
     </div>
     <div class="roi-panel">
-      <div class="small">ROI preview</div>
-      <canvas id="roiCanvas" width="224" height="224"></canvas>
+      <div class="small">Lupa ROI (2x)</div>
+      <canvas id="roiCanvas" width="256" height="256"></canvas>
       <div class="row">
         X1: <input id="roiX1" type="number" min="0" max="1920" size="5">
         Y1: <input id="roiY1" type="number" min="0" max="1080" size="5">
@@ -226,6 +226,10 @@
         <div class="row">
           Analyzer URL:
           <input id="analyzerUrl" placeholder="http://127.0.0.1:5005/analyze">
+        </div>
+        <div class="row">
+          <button id="testVisionBtn">Test vision</button>
+          <span id="testVisionStatus" class="small">-</span>
         </div>
       </div>
     </div>
