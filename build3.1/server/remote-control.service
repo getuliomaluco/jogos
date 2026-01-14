@@ -6,10 +6,10 @@ After=network.target
 Type=simple
 User=getulio
 WorkingDirectory=/home/getulio/build3.1
-EnvironmentFile=/home/getulio/build3.1/config.env
-Environment=DISPLAY=${RC_DISPLAY}
-Environment=XAUTHORITY=${RC_XAUTHORITY}
-ExecStart=${RC_PYTHON} ${RC_SERVER_PATH}/server.py --host ${RC_HOST} --port ${RC_PORT} --interval-ms ${RC_INTERVAL_MS} --jpeg-quality ${RC_JPEG_QUALITY}
+Environment=DISPLAY=:0
+Environment=XAUTHORITY=/home/getulio/.Xauthority
+ExecStartPre=/bin/bash -lc 'until DISPLAY=:0 XAUTHORITY=/home/getulio/.Xauthority xdotool getmouselocation >/dev/null 2>&1; do sleep 1; done'
+ExecStart=/usr/bin/python3 /home/getulio/build3.1/server.py --host 0.0.0.0 --port 8888 --interval-ms 200 --jpeg-quality 70
 Restart=always
 RestartSec=2
 
