@@ -54,10 +54,16 @@ def decode_image(data_url: str):
 
 def match_templates(roi_gray, template_list):
     best = (None, 0.0)
+    rh, rw = roi_gray.shape[:2]
     for name, tmpl in template_list:
-        if tmpl.shape[0] > roi_gray.shape[0] or tmpl.shape[1] > roi_gray.shape[1]:
+        th, tw = tmpl.shape[:2]
+        if th == 0 or tw == 0 or rh == 0 or rw == 0:
             continue
-        res = cv2.matchTemplate(roi_gray, tmpl, cv2.TM_CCOEFF_NORMED)
+        if th > rh or tw > rw:
+            resized = cv2.resize(tmpl, (rw, rh), interpolation=cv2.INTER_AREA)
+            res = cv2.matchTemplate(roi_gray, resized, cv2.TM_CCOEFF_NORMED)
+        else:
+            res = cv2.matchTemplate(roi_gray, tmpl, cv2.TM_CCOEFF_NORMED)
         _, max_val, _, _ = cv2.minMaxLoc(res)
         if max_val > best[1]:
             best = (name, float(max_val))
