@@ -11,7 +11,7 @@ Projeto de captura de tela no Linux com controle remoto e macros a partir de um 
 - build3.1/server/setup_systemd.sh: instala e habilita o service no Linux
 - build3.1/config.env: configuracao usada pelo systemd
 - build3.1/build3.1.md: referencia rapida
-- build3.1/CHECKLIST.md: checklist de deploy/validacao
+- build3.1/CHECKPOINT.md: resumo + checklist de deploy/validacao
 
 ## Caminhos padrao
 - Windows (cliente): E:\remote-client
