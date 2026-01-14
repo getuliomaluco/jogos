@@ -148,6 +148,11 @@ function setRoiFromInputs() {
   roi.y1 = Number(roiY1.value || 0);
   roi.x2 = Number(roiX2.value || 0);
   roi.y2 = Number(roiY2.value || 0);
+  clampRoiToTarget();
+  roiX1.value = roi.x1;
+  roiY1.value = roi.y1;
+  roiX2.value = roi.x2;
+  roiY2.value = roi.y2;
   localStorage.setItem("roi_coords", JSON.stringify(roi));
   renderRoiPreview();
 }
