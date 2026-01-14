@@ -72,6 +72,8 @@ const addKey2Btn = document.getElementById("addKey2Btn");
 const addKey3Btn = document.getElementById("addKey3Btn");
 const addLadderUpBtn = document.getElementById("addLadderUpBtn");
 const addMagicRopeBtn = document.getElementById("addMagicRopeBtn");
+const addShovelBtn = document.getElementById("addShovelBtn");
+const shovelKey = document.getElementById("shovelKey");
 const addClickLeftBtn = document.getElementById("addClickLeftBtn");
 const addClickRightBtn = document.getElementById("addClickRightBtn");
 const addScrollBtn = document.getElementById("addScrollBtn");
@@ -137,6 +139,7 @@ const visionUseRoi = document.getElementById("visionUseRoi");
 
 ip.value = localStorage.getItem("linux_ip") || "";
 analyzerUrl.value = localStorage.getItem("analyzer_url") || "http://127.0.0.1:5005/analyze";
+shovelKey.value = localStorage.getItem("shovel_key") || "End";
 
 const DEFAULT_ROI = { x1: 1748, y1: 37, x2: 1860, y2: 154 };
 let roi = { ...DEFAULT_ROI };
@@ -384,6 +387,10 @@ resumeStreamBtn.onclick = () => {
 
 analyzerUrl.addEventListener("change", () => {
   localStorage.setItem("analyzer_url", analyzerUrl.value || "");
+});
+
+shovelKey.addEventListener("change", () => {
+  localStorage.setItem("shovel_key", shovelKey.value || "");
 });
 
 window.addEventListener("resize", () => {
@@ -1100,6 +1107,12 @@ addLadderUpBtn.onclick = () => {
   addEvent({ type: "mouse", action: "click", button: 1, x: 728, y: 343 });
 };
 addMagicRopeBtn.onclick = () => addEvent({ type: "key", action: "press", key: "Home" });
+addShovelBtn.onclick = () => {
+  const key = (shovelKey.value || "End").trim() || "End";
+  addEvent({ type: "key", action: "press", key });
+  addEvent({ type: "delay", mode: "random", min: 100, max: 200 });
+  addEvent({ type: "mouse", action: "click", button: 1, x: 728, y: 343 });
+};
 addClickLeftBtn.onclick = () => {
   if (!currentMacro()) {
     alert("Selecione uma macro antes de adicionar click");
