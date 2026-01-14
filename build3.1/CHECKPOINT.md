@@ -75,6 +75,8 @@ Use it to resume work in a new session without re-discovery.
 - Macro editor with events: delay, key, mouse, scroll, move, vision.
 - Vision event supports onMatch/onMiss actions (continue/jump/stop).
 - Test vision button in UI.
+- Vision ROI selector (ROI 1 / ROI 2 / Custom).
+- Vision result panel (match, score, template, ROI).
 - Quick buttons: Delay 3-5s, Delay 5-8s, F1/F2/F3, 1/2/3, LadderUp (2x click at 728,343),
   MagicRope (Home), Shovel (custom key default End -> delay 100-200ms -> click 728,343).
 - Duplicate macro button.
@@ -102,9 +104,10 @@ Use it to resume work in a new session without re-discovery.
 - Analyzer health endpoint and label detection.
 - Systemd service restart via SSH and sudoers rule.
 - Web UI macro shortcuts and vision flow.
+- Vision result panel updates on test and during macro runs.
 
 ## What failed / pitfalls
-- WebSocket test via Python timed out when the server wasn?t reachable from Windows (handshake timeout).
+- WebSocket test via Python timed out when the server wasn't reachable from Windows (handshake timeout).
 - Vision test returned 0.00 initially because ROI was smaller than 256x256 templates.
 - Robocopy failed with UNC path when default had extra backslashes; fixed in setup.ps1.
 - Plink SSH failed initially due to host key not cached; used -hostkey.
@@ -116,8 +119,7 @@ Use it to resume work in a new session without re-discovery.
 - ROI inputs clamp to target size.
 
 ## Next steps ideas
-- Add ROI overlay rectangles on main canvas.
-- Add ?vision test? result details (score + template name).
-- Add ROI selector for vision events (ROI 1 vs ROI 2).
+- Add vision results history panel (last N matches).
 - Add better macro search/filter and export/import.
+- Add analyzer status badge (online/offline + last error).
 
