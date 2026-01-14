@@ -8,6 +8,7 @@ $ErrorActionPreference = "Stop"
 $repoRoot = Split-Path -Parent $MyInvocation.MyCommand.Path
 $clientSrc = Join-Path $repoRoot "client"
 $serverSrc = Join-Path $repoRoot "server"
+$assetsSrc = Join-Path $repoRoot "assets"
 $configSrc = Join-Path $repoRoot "config.env"
 
 function Copy-Tree {
@@ -47,6 +48,11 @@ function Copy-Tree {
 
 Write-Host "Sync client -> $ClientPath"
 Copy-Tree -Source $clientSrc -Destination $ClientPath
+
+if (Test-Path $assetsSrc) {
+  Write-Host "Sync assets -> $ClientPath\\assets"
+  Copy-Tree -Source $assetsSrc -Destination (Join-Path $ClientPath "assets")
+}
 
 Write-Host "Sync server -> $ServerPath"
 Copy-Tree -Source $serverSrc -Destination $ServerPath -ExcludeDirs @("venv")

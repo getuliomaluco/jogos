@@ -23,11 +23,14 @@
 - Open build3.1/client/index.html
 - Connect to ws://<linux-ip>:8888
 - Confirm FPS updates and latency
+- Start analyzer: python build3.1\analyzer\analyze_server.py
+- Set Analyzer URL to http://127.0.0.1:5005/analyze
 
 ## Input
 - Click on the preview and confirm mouse click on Linux
 - Type in the text box and send
 - Try a macro with delay + click
+- Try a macro with vision step (match/miss)
 
 ## Troubleshooting
 - Check logs: ~/.local/share/remote-control/server.log

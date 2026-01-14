@@ -6,6 +6,7 @@ Projeto de captura de tela no Linux com controle remoto e macros a partir de um 
 ## Estrutura
 - build3.1/client: UI web (index.html, app.js, style.css)
 - build3.1/server: servidor Python (websockets + mss + Pillow + xdotool)
+- build3.1/analyzer: servico local (Windows) para analise via OpenCV
 - build3.1/setup.ps1: sincroniza cliente e servidor a partir deste repo
 - build3.1/server/setup_systemd.sh: instala e habilita o service no Linux
 - build3.1/config.env: configuracao usada pelo systemd
@@ -20,6 +21,15 @@ Projeto de captura de tela no Linux com controle remoto e macros a partir de um 
 1) Abra um PowerShell no repo
 2) Rode:
    powershell -ExecutionPolicy Bypass -File build3.1\setup.ps1
+
+## Analyzer (Windows)
+1) Instale dependencias:
+   pip install -r build3.1\analyzer\requirements.txt
+2) Rode o servico:
+   python build3.1\analyzer\analyze_server.py
+3) No cliente, defina Analyzer URL como:
+   http://127.0.0.1:5005/analyze
+4) Label padrao: minimapopencv (usa assets/minimap/images)
 
 ## Setup Linux
 1) No Linux, rode:
@@ -46,6 +56,7 @@ Projeto de captura de tela no Linux com controle remoto e macros a partir de um 
 ## Uso do cliente
 - Abra build3.1/client/index.html no navegador
 - Informe IP do Linux e porta (8888) e clique Conectar
+- Ajuste o ROI e o Analyzer URL para usar o passo vision
 
 ## Macros
 - Editor permite delay (fixed/random), key (press/down/up), mouse (click/down/up), scroll e move (abs/rel)

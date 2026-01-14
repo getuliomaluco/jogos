@@ -28,6 +28,12 @@ const latency = document.getElementById("latency");
 const fps = document.getElementById("fps");
 const canvas = document.getElementById("canvas");
 const ctx = canvas.getContext("2d");
+const roiCanvas = document.getElementById("roiCanvas");
+const roiCtx = roiCanvas.getContext("2d");
+const roiX1 = document.getElementById("roiX1");
+const roiY1 = document.getElementById("roiY1");
+const roiX2 = document.getElementById("roiX2");
+const roiY2 = document.getElementById("roiY2");
 const hoverX = document.getElementById("hoverX");
 const hoverY = document.getElementById("hoverY");
 const clickMarker = document.getElementById("clickMarker");
@@ -51,6 +57,7 @@ const addKeyBtn = document.getElementById("addKeyBtn");
 const addClickLeftBtn = document.getElementById("addClickLeftBtn");
 const addClickRightBtn = document.getElementById("addClickRightBtn");
 const addScrollBtn = document.getElementById("addScrollBtn");
+const addVisionBtn = document.getElementById("addVisionBtn");
 const moveUpBtn = document.getElementById("moveUpBtn");
 const moveDownBtn = document.getElementById("moveDownBtn");
 const removeActionBtn = document.getElementById("removeActionBtn");
@@ -88,6 +95,7 @@ const captureStatus = document.getElementById("captureStatus");
 const saveEventBtn = document.getElementById("saveEvent");
 const newEventBtn = document.getElementById("newEvent");
 const cursorTooltip = document.getElementById("cursorTooltip");
+const analyzerUrl = document.getElementById("analyzerUrl");
 
 const recKeys = document.getElementById("recKeys");
 const recClicks = document.getElementById("recClicks");
@@ -95,12 +103,60 @@ const recAbsMove = document.getElementById("recAbsMove");
 const recRelMove = document.getElementById("recRelMove");
 const recPressDuration = document.getElementById("recPressDuration");
 
+const visionLabel = document.getElementById("visionLabel");
+const visionThreshold = document.getElementById("visionThreshold");
+const visionOnMatch = document.getElementById("visionOnMatch");
+const visionOnMiss = document.getElementById("visionOnMiss");
+const visionJumpMatch = document.getElementById("visionJumpMatch");
+const visionJumpMiss = document.getElementById("visionJumpMiss");
+const visionRoiX1 = document.getElementById("visionRoiX1");
+const visionRoiY1 = document.getElementById("visionRoiY1");
+const visionRoiX2 = document.getElementById("visionRoiX2");
+const visionRoiY2 = document.getElementById("visionRoiY2");
+const visionUseRoi = document.getElementById("visionUseRoi");
+
 ip.value = localStorage.getItem("linux_ip") || "";
+analyzerUrl.value = localStorage.getItem("analyzer_url") || "http://127.0.0.1:5005/analyze";
+
+const DEFAULT_ROI = { x1: 1748, y1: 37, x2: 1860, y2: 154 };
+let roi = { ...DEFAULT_ROI };
+const storedRoi = localStorage.getItem("roi_coords");
+if (storedRoi) {
+  try {
+    const parsed = JSON.parse(storedRoi);
+    if (parsed && Number.isFinite(parsed.x1)) {
+      roi = parsed;
+    }
+  } catch {
+    roi = { ...DEFAULT_ROI };
+  }
+}
+
+roiX1.value = roi.x1;
+roiY1.value = roi.y1;
+roiX2.value = roi.x2;
+roiY2.value = roi.y2;
 
 function setConnectionUi(connected) {
   connStatus.textContent = connected ? "Conectado" : "Desconectado";
   connectBtn.disabled = connected;
   disconnectBtn.disabled = !connected;
+}
+
+function setRoiFromInputs() {
+  roi.x1 = Number(roiX1.value || 0);
+  roi.y1 = Number(roiY1.value || 0);
+  roi.x2 = Number(roiX2.value || 0);
+  roi.y2 = Number(roiY2.value || 0);
+  localStorage.setItem("roi_coords", JSON.stringify(roi));
+  renderRoiPreview();
+}
+
+function clampRoiToTarget() {
+  roi.x1 = Math.max(0, Math.min(targetW, roi.x1));
+  roi.y1 = Math.max(0, Math.min(targetH, roi.y1));
+  roi.x2 = Math.max(0, Math.min(targetW, roi.x2));
+  roi.y2 = Math.max(0, Math.min(targetH, roi.y2));
 }
 
 function startPing() {
@@ -175,6 +231,12 @@ function connect(isReconnect) {
       if (msg.type === "hello") {
         if (Number.isFinite(msg.target_w)) targetW = msg.target_w;
         if (Number.isFinite(msg.target_h)) targetH = msg.target_h;
+        clampRoiToTarget();
+        roiX1.value = roi.x1;
+        roiY1.value = roi.y1;
+        roiX2.value = roi.x2;
+        roiY2.value = roi.y2;
+        renderRoiPreview();
       }
 
       if (msg.type === "frame") {
@@ -233,13 +295,40 @@ resumeStreamBtn.onclick = () => {
   sendInput({ type: "stream", action: "resume" });
 };
 
+[roiX1, roiY1, roiX2, roiY2].forEach((el) => {
+  el.addEventListener("change", () => {
+    setRoiFromInputs();
+  });
+});
+
+analyzerUrl.addEventListener("change", () => {
+  localStorage.setItem("analyzer_url", analyzerUrl.value || "");
+});
+
+let lastFrameImg = null;
+
 function drawFrame(b64, format) {
   const img = new Image();
   img.onload = () => {
     ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+    lastFrameImg = img;
+    renderRoiPreview();
   };
   const fmt = format || "jpeg";
   img.src = `data:image/${fmt};base64,` + b64;
+}
+
+function renderRoiPreview() {
+  if (!lastFrameImg) return;
+  clampRoiToTarget();
+  const w = Math.max(1, roi.x2 - roi.x1);
+  const h = Math.max(1, roi.y2 - roi.y1);
+  roiCtx.clearRect(0, 0, roiCanvas.width, roiCanvas.height);
+  try {
+    roiCtx.drawImage(lastFrameImg, roi.x1, roi.y1, w, h, 0, 0, roiCanvas.width, roiCanvas.height);
+  } catch {
+    // ignore draw errors on fast reconnects
+  }
 }
 
 function sendInput(obj) {
@@ -627,6 +716,11 @@ function eventLabel(ev) {
   if (ev.type === "move") {
     return `Move ${ev.mode} (${ev.x},${ev.y})`;
   }
+  if (ev.type === "vision") {
+    const label = ev.label || "vision";
+    const th = Number.isFinite(ev.threshold) ? ev.threshold : 0.85;
+    return `Vision ${label} >= ${th}`;
+  }
   return ev.type || "evento";
 }
 
@@ -683,6 +777,20 @@ function loadEventToForm(ev) {
     moveY.value = ev.y || 0;
   }
 
+  if (ev.type === "vision") {
+    visionLabel.value = ev.label || "minimapopencv";
+    visionThreshold.value = ev.threshold != null ? ev.threshold : 0.85;
+    visionOnMatch.value = (ev.onMatch && ev.onMatch.action) || "continue";
+    visionOnMiss.value = (ev.onMiss && ev.onMiss.action) || "continue";
+    visionJumpMatch.value = ev.onMatch && Number.isFinite(ev.onMatch.index) ? ev.onMatch.index + 1 : "";
+    visionJumpMiss.value = ev.onMiss && Number.isFinite(ev.onMiss.index) ? ev.onMiss.index + 1 : "";
+    const roiEv = ev.roi || roi;
+    visionRoiX1.value = roiEv.x1 || 0;
+    visionRoiY1.value = roiEv.y1 || 0;
+    visionRoiX2.value = roiEv.x2 || 0;
+    visionRoiY2.value = roiEv.y2 || 0;
+  }
+
   updateEventFields();
   updateDelayFields();
 }
@@ -720,6 +828,30 @@ function getEventFromForm() {
     };
   }
 
+  if (type === "vision") {
+    const jumpMatch = Number(visionJumpMatch.value || 0);
+    const jumpMiss = Number(visionJumpMiss.value || 0);
+    return {
+      type: "vision",
+      label: (visionLabel.value || "").trim() || "minimapopencv",
+      threshold: Number(visionThreshold.value || 0.85),
+      roi: {
+        x1: Number(visionRoiX1.value || 0),
+        y1: Number(visionRoiY1.value || 0),
+        x2: Number(visionRoiX2.value || 0),
+        y2: Number(visionRoiY2.value || 0)
+      },
+      onMatch: {
+        action: visionOnMatch.value,
+        index: Number.isFinite(jumpMatch) && jumpMatch > 0 ? jumpMatch - 1 : null
+      },
+      onMiss: {
+        action: visionOnMiss.value,
+        index: Number.isFinite(jumpMiss) && jumpMiss > 0 ? jumpMiss - 1 : null
+      }
+    };
+  }
+
   return {
     type: "move",
     mode: moveMode.value,
@@ -745,6 +877,7 @@ function updateEventFields() {
   document.getElementById("eventMouseFields").classList.toggle("hidden", type !== "mouse");
   document.getElementById("eventScrollFields").classList.toggle("hidden", type !== "scroll");
   document.getElementById("eventMoveFields").classList.toggle("hidden", type !== "move");
+  document.getElementById("eventVisionFields").classList.toggle("hidden", type !== "vision");
 }
 
 eventType.onchange = () => {
@@ -805,6 +938,21 @@ addClickRightBtn.onclick = () => {
   captureStatus.textContent = "Add Click R: clique na tela";
 };
 addScrollBtn.onclick = () => addEvent({ type: "scroll", direction: "down", clicks: 3, x: 500, y: 300 });
+addVisionBtn.onclick = () => addEvent({
+  type: "vision",
+  label: "minimapopencv",
+  threshold: 0.85,
+  roi: { ...roi },
+  onMatch: { action: "continue", index: null },
+  onMiss: { action: "continue", index: null }
+});
+
+visionUseRoi.onclick = () => {
+  visionRoiX1.value = roi.x1;
+  visionRoiY1.value = roi.y1;
+  visionRoiX2.value = roi.x2;
+  visionRoiY2.value = roi.y2;
+};
 
 moveUpBtn.onclick = () => {
   const macro = currentMacro();
@@ -942,6 +1090,59 @@ function stopRecording() {
 recordBtn.onclick = () => startRecording();
 stopRecordBtn.onclick = () => stopRecording();
 
+function normalizeJumpIndex(value) {
+  if (!Number.isFinite(value)) return null;
+  if (value < 0) return null;
+  return value;
+}
+
+async function analyzeVisionEvent(ev) {
+  if (!lastFrameImg) {
+    return { match: false, score: 0, label: ev.label || "" };
+  }
+  const roiEv = ev.roi || roi;
+  const w = Math.max(1, (roiEv.x2 || 0) - (roiEv.x1 || 0));
+  const h = Math.max(1, (roiEv.y2 || 0) - (roiEv.y1 || 0));
+
+  const off = document.createElement("canvas");
+  off.width = w;
+  off.height = h;
+  const offCtx = off.getContext("2d");
+  try {
+    offCtx.drawImage(lastFrameImg, roiEv.x1, roiEv.y1, w, h, 0, 0, w, h);
+  } catch {
+    return { match: false, score: 0, label: ev.label || "" };
+  }
+
+  const payload = {
+    image_b64: off.toDataURL("image/png"),
+    label: ev.label || "",
+    threshold: ev.threshold != null ? ev.threshold : 0.85
+  };
+
+  const controller = new AbortController();
+  const timeout = setTimeout(() => controller.abort(), 5000);
+  try {
+    const res = await fetch(analyzerUrl.value, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
+    const data = await res.json();
+    return {
+      match: !!data.match,
+      score: Number(data.score || 0),
+      label: data.label || ev.label || ""
+    };
+  } catch (err) {
+    logError("Vision analyzer error", err);
+    return { match: false, score: 0, label: ev.label || "" };
+  } finally {
+    clearTimeout(timeout);
+  }
+}
+
 async function playMacro(macro) {
   if (!macro || !macro.events.length) return;
   if (runningMacros[macro.id]) return;
@@ -953,13 +1154,35 @@ async function playMacro(macro) {
   let loopCount = 0;
 
   while (loopCount < loopMax && !runningMacros[macro.id].stop) {
-    for (const ev of macro.events) {
+    let idx = 0;
+    while (idx < macro.events.length) {
       if (runningMacros[macro.id].stop) break;
+      const ev = macro.events[idx];
+
       if (ev.type === "delay") {
         const delay = ev.mode === "random"
           ? Math.random() * (ev.max - ev.min) + ev.min
           : ev.ms || 0;
         await new Promise((r) => setTimeout(r, delay));
+        idx += 1;
+        continue;
+      }
+
+      if (ev.type === "vision") {
+        const result = await analyzeVisionEvent(ev);
+        const branch = result.match ? ev.onMatch : ev.onMiss;
+        if (branch && branch.action === "stop") {
+          runningMacros[macro.id].stop = true;
+          break;
+        }
+        if (branch && branch.action === "jump") {
+          const target = normalizeJumpIndex(branch.index);
+          if (target != null && target < macro.events.length) {
+            idx = target;
+            continue;
+          }
+        }
+        idx += 1;
         continue;
       }
 
@@ -994,6 +1217,8 @@ async function playMacro(macro) {
           sendInput({ type: "input", event: "mouse_move", x: ev.x, y: ev.y });
         }
       }
+
+      idx += 1;
     }
     loopCount += 1;
   }

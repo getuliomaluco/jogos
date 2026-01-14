@@ -29,6 +29,18 @@
       <div id="clickMarker" class="click-marker"></div>
       <div id="cursorTooltip" class="cursor-tooltip">X: 0 Y: 0</div>
     </div>
+    <div class="roi-panel">
+      <div class="small">ROI preview</div>
+      <canvas id="roiCanvas" width="224" height="224"></canvas>
+      <div class="row">
+        X1: <input id="roiX1" type="number" min="0" max="1920" size="5">
+        Y1: <input id="roiY1" type="number" min="0" max="1080" size="5">
+      </div>
+      <div class="row">
+        X2: <input id="roiX2" type="number" min="0" max="1920" size="5">
+        Y2: <input id="roiY2" type="number" min="0" max="1080" size="5">
+      </div>
+    </div>
     <div class="small">X: <span id="hoverX">-</span> | Y: <span id="hoverY">-</span></div>
     <div>
       <button id="pauseStream">Pausar stream</button>
@@ -69,6 +81,7 @@
           <button id="addClickLeftBtn">Add click L</button>
           <button id="addClickRightBtn">Add click R</button>
           <button id="addScrollBtn">Add scroll</button>
+          <button id="addVisionBtn">Add vision</button>
           <button id="moveUpBtn">Up</button>
           <button id="moveDownBtn">Down</button>
           <button id="removeActionBtn" class="danger">Remover</button>
@@ -93,6 +106,7 @@
               <option value="mouse">Mouse</option>
               <option value="scroll">Scroll</option>
               <option value="move">Move</option>
+              <option value="vision">Vision</option>
             </select>
 
             <div id="eventDelayFields" class="row">
@@ -158,6 +172,36 @@
               Y: <input id="moveY" type="number" min="-1080" max="1080" size="6">
             </div>
 
+            <div id="eventVisionFields" class="row">
+              Label: <input id="visionLabel" placeholder="minimapopencv">
+              Threshold: <input id="visionThreshold" type="number" min="0" max="1" step="0.01" value="0.85" size="5">
+              <button id="visionUseRoi">Use ROI atual</button>
+              <div class="row">
+                ROI X1: <input id="visionRoiX1" type="number" min="0" max="1920" size="5">
+                ROI Y1: <input id="visionRoiY1" type="number" min="0" max="1080" size="5">
+                ROI X2: <input id="visionRoiX2" type="number" min="0" max="1920" size="5">
+                ROI Y2: <input id="visionRoiY2" type="number" min="0" max="1080" size="5">
+              </div>
+              <div class="row">
+                Match:
+                <select id="visionOnMatch">
+                  <option value="continue">Continue</option>
+                  <option value="jump">Jump</option>
+                  <option value="stop">Stop</option>
+                </select>
+                Ir para: <input id="visionJumpMatch" type="number" min="1" size="4">
+              </div>
+              <div class="row">
+                Miss:
+                <select id="visionOnMiss">
+                  <option value="continue">Continue</option>
+                  <option value="jump">Jump</option>
+                  <option value="stop">Stop</option>
+                </select>
+                Ir para: <input id="visionJumpMiss" type="number" min="1" size="4">
+              </div>
+            </div>
+
             <div class="row">
               <button id="captureCoords">Capturar coords</button>
               <span id="captureStatus" class="small">Inativo</span>
@@ -179,6 +223,10 @@
         <label><input type="checkbox" id="recRelMove"> Record relative cursor movement</label>
         <label><input type="checkbox" id="recPressDuration" checked> Insert press duration</label>
         <div class="small">Dica: grave clicando na tela do preview.</div>
+        <div class="row">
+          Analyzer URL:
+          <input id="analyzerUrl" placeholder="http://127.0.0.1:5005/analyze">
+        </div>
       </div>
     </div>
   </section>
