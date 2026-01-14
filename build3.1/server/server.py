@@ -408,6 +408,24 @@ class RemoteServer:
             })
             return
 
+        # --- controle do servico (reinicio) ---
+        if t == "service":
+            action = obj.get("action")
+            if action == "restart":
+                try:
+                    r = subprocess.run(
+                        ["systemctl", "restart", "remote-control.service"],
+                        capture_output=True,
+                        text=True,
+                        timeout=10,
+                    )
+                    if r.returncode != 0:
+                        raise RuntimeError(r.stderr.strip() or r.stdout.strip() or "systemctl failed")
+                    await self.send_json(ws, {"type": "service", "status": "restarted", "ts": now_ms()})
+                except Exception as e:
+                    await self.send_json(ws, {"type": "error", "message": str(e), "ts": now_ms()})
+            return
+
         # --- INPUT (base pronta) ---
         if t == "input":
             ev = obj.get("event")

@@ -15,6 +15,7 @@
     <button id="connectBtn">Conectar</button>
     <button id="disconnectBtn" disabled>Desconectar</button>
     <button id="emergencyStop" class="danger">Parada de emergencia</button>
+    <button id="restartService">Reiniciar servico</button>
     <div>
       Status: <span id="connStatus">Desconectado</span> |
       Latencia: <span id="latency">-</span> ms |
@@ -77,6 +78,7 @@
         <div class="toolbar">
           <button id="newMacro">Nova macro</button>
           <button id="deleteMacro" class="danger">Remover</button>
+          <button id="duplicateMacro">Duplicar</button>
         </div>
         <div id="macroList" class="list"></div>
       </div>
@@ -89,7 +91,14 @@
           <button id="stopAllMacros" class="danger">Stop all</button>
           <button id="addDelayBtn">Add delay</button>
           <input id="addDelayValue" type="number" min="0" value="100" size="6">
+          <button id="addDelay35Btn">Delay 3-5s</button>
           <button id="addKeyBtn">Add key</button>
+          <button id="addF1Btn">F1</button>
+          <button id="addF2Btn">F2</button>
+          <button id="addF3Btn">F3</button>
+          <button id="addKey1Btn">1</button>
+          <button id="addKey2Btn">2</button>
+          <button id="addKey3Btn">3</button>
           <button id="addClickLeftBtn">Add click L</button>
           <button id="addClickRightBtn">Add click R</button>
           <button id="addScrollBtn">Add scroll</button>

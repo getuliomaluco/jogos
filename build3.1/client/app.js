@@ -23,6 +23,7 @@ const port = document.getElementById("port");
 const connectBtn = document.getElementById("connectBtn");
 const disconnectBtn = document.getElementById("disconnectBtn");
 const emergencyStopBtn = document.getElementById("emergencyStop");
+const restartServiceBtn = document.getElementById("restartService");
 const connStatus = document.getElementById("connStatus");
 const latency = document.getElementById("latency");
 const fps = document.getElementById("fps");
@@ -53,13 +54,21 @@ const keyButtons = document.getElementById("keyButtons");
 
 const newMacroBtn = document.getElementById("newMacro");
 const deleteMacroBtn = document.getElementById("deleteMacro");
+const duplicateMacroBtn = document.getElementById("duplicateMacro");
 const macroList = document.getElementById("macroList");
 const recordBtn = document.getElementById("recordBtn");
 const stopRecordBtn = document.getElementById("stopRecordBtn");
 const playMacroBtn = document.getElementById("playMacroBtn");
 const addDelayBtn = document.getElementById("addDelayBtn");
 const addDelayValue = document.getElementById("addDelayValue");
+const addDelay35Btn = document.getElementById("addDelay35Btn");
 const addKeyBtn = document.getElementById("addKeyBtn");
+const addF1Btn = document.getElementById("addF1Btn");
+const addF2Btn = document.getElementById("addF2Btn");
+const addF3Btn = document.getElementById("addF3Btn");
+const addKey1Btn = document.getElementById("addKey1Btn");
+const addKey2Btn = document.getElementById("addKey2Btn");
+const addKey3Btn = document.getElementById("addKey3Btn");
 const addClickLeftBtn = document.getElementById("addClickLeftBtn");
 const addClickRightBtn = document.getElementById("addClickRightBtn");
 const addScrollBtn = document.getElementById("addScrollBtn");
@@ -344,6 +353,10 @@ emergencyStopBtn.onclick = () => {
   manualClose = true;
   stopPing();
   renderMacroList();
+};
+
+restartServiceBtn.onclick = () => {
+  sendInput({ type: "service", action: "restart" });
 };
 
 pauseStreamBtn.onclick = () => {
@@ -1070,7 +1083,14 @@ addDelayBtn.onclick = () => {
   const ms = Number(addDelayValue.value || 0);
   addEvent({ type: "delay", mode: "fixed", ms });
 };
+addDelay35Btn.onclick = () => addEvent({ type: "delay", mode: "random", min: 3000, max: 5000 });
 addKeyBtn.onclick = () => addEvent({ type: "key", action: "press", key: "ctrl+c" });
+addF1Btn.onclick = () => addEvent({ type: "key", action: "press", key: "F1" });
+addF2Btn.onclick = () => addEvent({ type: "key", action: "press", key: "F2" });
+addF3Btn.onclick = () => addEvent({ type: "key", action: "press", key: "F3" });
+addKey1Btn.onclick = () => addEvent({ type: "key", action: "press", key: "1" });
+addKey2Btn.onclick = () => addEvent({ type: "key", action: "press", key: "2" });
+addKey3Btn.onclick = () => addEvent({ type: "key", action: "press", key: "3" });
 addClickLeftBtn.onclick = () => {
   if (!currentMacro()) {
     alert("Selecione uma macro antes de adicionar click");
@@ -1164,6 +1184,20 @@ deleteMacroBtn.onclick = () => {
   if (!macro) return;
   macros = macros.filter((m) => m.id !== macro.id);
   currentMacroId = macros[0] ? macros[0].id : null;
+  selectedEventIndex = null;
+  saveMacros();
+  renderMacroList();
+  renderMacroEditor();
+};
+
+duplicateMacroBtn.onclick = () => {
+  const macro = currentMacro();
+  if (!macro) return;
+  const copy = JSON.parse(JSON.stringify(macro));
+  copy.id = Date.now();
+  copy.name = `${macro.name} copy`;
+  macros.push(copy);
+  currentMacroId = copy.id;
   selectedEventIndex = null;
   saveMacros();
   renderMacroList();
