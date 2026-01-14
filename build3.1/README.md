@@ -28,9 +28,9 @@ Projeto de captura de tela no Linux com controle remoto e macros a partir de um 
 2) Para rodar manualmente:
    python3 /home/getulio/build3.1/server.py --port 8888 --verbose
 
-3) Para usar systemd (automatizado, sem reiniciar):
+3) Para usar systemd (automatizado):
    bash /home/getulio/build3.1/server/setup_systemd.sh
-   sudo systemctl restart remote-control.service
+   bash /home/getulio/build3.1/server/setup_systemd.sh --restart
 
 4) Para usar systemd (manual):
    - Edite build3.1/config.env e ajuste os valores

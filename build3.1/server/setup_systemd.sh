@@ -4,6 +4,13 @@ set -e
 BASE_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 ROOT_DIR="$(cd "$BASE_DIR/.." && pwd)"
 
+RESTART=0
+for arg in "$@"; do
+  if [ "$arg" = "--restart" ] || [ "$arg" = "-r" ]; then
+    RESTART=1
+  fi
+done
+
 ENV_SRC="$ROOT_DIR/config.env"
 SERVICE_SRC="$BASE_DIR/remote-control.service"
 
@@ -30,7 +37,13 @@ sudo cp "$SERVICE_SRC" /etc/systemd/system/remote-control.service
 sudo systemctl daemon-reload
 sudo systemctl enable remote-control.service
 
-echo "Service instalado. Para reiniciar manualmente:"
-echo "  sudo systemctl restart remote-control.service"
+if [ "$RESTART" -eq 1 ]; then
+  sudo systemctl restart remote-control.service
+else
+  echo "Service instalado. Para reiniciar manualmente:"
+  echo "  sudo systemctl restart remote-control.service"
+  echo "Ou rode com --restart para reiniciar automaticamente."
+fi
+
 echo "Status atual:"
 systemctl --no-pager --full status remote-control.service
